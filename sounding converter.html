@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sounding Converter | Eneotu Joe</title>
+    <style>
+        html {
+            font-size: 16px;
+            color: #000000;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;  
+            margin: 4rem;
+            background: #e0e5ec;
+            font-family: 'Arial', sans-serif;
+            /* color: #4a5b73; */
+        }
+
+        main {
+            width: 80%;
+            padding: 1.5rem;
+            background: #e0e5ec;
+            border-radius: 20px;
+            box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6),
+                       -9px -9px 16px rgba(255, 255, 255, 0.5);
+        }
+
+        section {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 0;
+            padding-bottom: 1rem;
+        }
+
+        h3 {
+            text-align: center;
+            font-style: italic;
+            font-weight: lighter;
+            margin-top: 0;
+        }
+
+        button {
+            background: #e0e5ec;
+            font-weight: bold;
+            min-width: 12em;
+            border: none;
+            padding: 1em;
+            border-radius: 5px;
+            box-shadow: 5px 5px 10px rgba(163, 177, 198, 0.6),
+                       -5px -5px 10px rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input {
+            background: #e0e5ec;
+            color: #4a5b73;
+            border: none;
+            padding: 1em;
+            margin: 1em;
+            border-radius: 5px;
+            font-size: 12px;
+            box-shadow: inset 6px 6px 12px #a3b1c6, inset -6px -6px 12px #ffffff;
+            outline: none;
+        }
+
+        input:focus {
+            box-shadow: inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #ffffff;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .tab {
+            flex: 1;
+            background: #e0e5ec;
+            border: none;
+            padding: 1em;
+            margin: 0.3em;
+            border-radius: 10px;
+            font-size: 16px;
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            box-shadow: inset 6px 6px 12px #a3b1c6, inset -6px -6px 12px #ffffff;
+        }
+
+        .tab-content {
+            display: none;
+            min-height: 550px;
+            padding: 1rem;
+            margin: 1rem;
+            border-radius: 10px;
+            box-shadow: inset 6px 6px 12px #a3b1c6, inset -6px -6px 12px #ffffff;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .table-container {
+            height: 50vh;
+            overflow-y: auto;
+            margin: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #4a5b73;
+            padding: 5px;
+            text-align: center;
+        }
+        
+        .fwg-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .fwg-input-group {
+            display: flex;
+            align-items: center;
+
+        }
+        
+        .fwg-result-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+	        margin-bottom: 1.4rem;
+        }
+
+        .fwg-results {
+            width: 350px;
+            margin-top: 15px;
+            padding-left: 15px;
+            background: #e0e5ec;
+            border-radius: 5px;
+            box-shadow: inset 5px 5px 10px #babecc, inset -5px -5px 10px #ffffff;
+        }
+
+        .interpolation-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-radius: 10px;
+        }
+
+        .interpolation-input-group {
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+            margin-top: 2rem;
+        }
+
+        .interpolation-result-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+        
+        .interpolation-result-input {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            width: 250px;
+            margin: 0.9rem;
+        }
+        
+        .result {
+            padding: 0;
+            margin: 0;
+            font-style: italic;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+	.print-div {
+            display: flex;
+            justify-content: end;
+	    align-items: center;
+        }
+
+	.print-button {
+            background: #e0e5ec;
+            font-weight: bold;
+            min-width: 12em;
+            border-radius: 5px;
+	    border: 1px solid;
+            box-shadow: 5px 5px 10px rgba(163, 177, 198, 0.6),
+                       -5px -5px 10px rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        
+        .print-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            display:flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+
+            body {
+                margin: 2rem;
+            }
+
+            main {
+                width: 100%;
+                height: 100%;
+            }
+
+            section {
+                gap: 20px;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .tab {
+                font-size: 12px;
+                padding: 0.6em;
+            }
+
+            .tab-content.active {
+                display: block;
+                height: 420px;
+                overflow-y: auto;
+            }
+
+            .table-container {
+                height: 100%;
+                overflow-y: auto;
+                margin: 5px;
+            }
+            
+            .fwg-input-group {
+                flex-direction: column;
+            }
+
+            .result {
+                margin-top: 5px;
+                margin-bottom: 20px;
+            }
+
+            .interpolation-input-group {
+                width: 100%;
+            }
+
+
+        }
+
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="header">
+            <h1>LNG Abuja II</h1>
+            <h2>Tank Sounding Converter</h2>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="openTab('tab1')">Sounding Converter</div>
+            <div class="tab" onclick="openTab('tab2')">Sounding Table</div>
+            <div class="tab" onclick="openTab('tab3')">Fresh Water Figures</div>
+            <div class="tab" onclick="openTab('tab4')">Interpolation</div>
+        </div>
+        
+        <div id="tab1" class="tab-content active">
+            <section>
+                <div>
+                    <label for="inputCDT">Clean Drain (cm):</label>
+                    <input type="text" id="inputCDT" placeholder="Enter sounding figure ...">
+                    <button onclick="calculateCDT()">Convert</button>
+		            <p class="result">Volume: <strong id="CDTResult"></strong></p>
+
+                    <label for="inputCBT">Clean Bilge (cm):</label>
+                    <input type="text" id="inputCBT" placeholder="Enter sounding figure ...">
+                    <button onclick="calculateCBT()">Convert</button>
+                    <p class="result">Volume: <strong id="CBTResult"></strong></p>
+
+                    <label for="inputBHT">Bilge Holding (cm):</label>
+                    <input type="text" id="inputBHT" placeholder="Enter sounding figure ...">
+                    <button onclick="calculateBHT()">Convert</button>
+                    <p class="result">Volume: <strong id="BHTResult"></strong></p>
+
+                    <label for="inputMGO">MGO Overflow (cm):</label>
+                    <input type="text" id="inputMGO" placeholder="Enter sounding figure ...">
+                    <button onclick="calculateMGO()">Convert</button>
+                    <p class="result">Volume: <strong id="MGOResult"></strong></p>
+
+                    <label for="inputHFO">HFO Overflow (cm):</label>
+                    <input type="text" id="inputHFO" placeholder="Enter sounding figure ...">
+                    <button onclick="calculateHFO()">Convert</button>
+                    <p class="result">Volume: <strong id="HFOResult"></strong></p>
+
+                    <label for="inputSBOT">Sep. Bilge (cm):</label>
+                    <input type="text" id="inputSBOT" placeholder="Enter sounding figure ...">
+                    <button onclick="calculateSBOT()">Convert</button>
+                    <p class="result">Volume: <strong id="SBOTResult"></strong></p>
+                    
+                    <label for="inputSludgeSB">Sludge SB (cm):</label>
+                    <input type="text" id="inputSludgeSB" placeholder="Enter sounding figure ...">
+                    <button onclick="calculateSludgeSB()">Convert</button>
+                    <p class="result">Volume: <strong id="sludgeSBResult"></strong></p>
+                    
+                </div>
+                
+                <div>
+                    <label for="inputSludgePORT">Sludge Port (cm):</label>
+                    <input type="text" id="inputSludgePORT" placeholder="Enter sounding figure ...">
+                    <button onclick="calculateSludgePORT()">Convert</button>
+                    <p class="result">Volume: <strong id="sludgePORTResult"></strong></p>
+                    
+                    <label for="inputMGE1Sump">MGE 1 Sump (cm):</label>
+                    <input type="text" id="inputMGE1Sump" placeholder="Enter sounding figure ...">
+                    <button onclick="calculateMGE1Sump()">Convert</button>
+                    <p class="result">Volume: <strong id="MGE1SumpResult"></strong></p>
+
+                    <label for="inputMGE2Sump">MGE 2 Sump (cm):</label>
+                    <input type="text" id="inputMGE2Sump" placeholder="Enter sounding figure ...">
+                    <button onclick="calculateMGE2Sump()">Convert</button>
+                    <p class="result">Volume: <strong id="MGE2SumpResult"></strong></p>
+
+                    <label for="inputMGE3Sump">MGE 3 Sump (cm):</label>
+                    <input type="text" id="inputMGE3Sump" placeholder="Enter sounding figure ...">
+                    <button onclick="calculateMGE3Sump()">Convert</button>
+                    <p class="result">Volume: <strong id="MGE3SumpResult"></strong></p>
+
+                    <label for="inputMGE4Sump">MGE 4 Sump (cm):</label>
+                    <input type="text" id="inputMGE4Sump" placeholder="Enter sounding figure ...">
+                    <button onclick="calculateMGE4Sump()">Convert</button>
+                    <p class="result">Volume: <strong id="MGE4SumpResult"></strong></p>
+
+                    <label for="inputMGE5Sump">MGE 5 Sump (cm):</label>
+                    <input type="text" id="inputMGE5Sump" placeholder="Enter sounding figure ...">
+                    <button onclick="calculateMGE5Sump()">Convert</button>
+                    <p class="result">Volume: <strong id="MGE5SumpResult"></strong></p>
+                </div>
+            </section>
+	    <div class="print-div"><button class="print-button" onclick="alert('Print functionality is coming soon ...')">Print</button></div>
+        </div>
+        
+        <div id="tab2" class="tab-content">
+            <h2>Engine Room Tank Sounding Table (Trim: 0.00m)</h2>
+            <div class="table-container">
+	     <table id="soundingTable">
+	      <thead>
+               <tr>
+                <th>Sounding</th>
+                 <th>Clean Drain</th><th>Clean Bilge</th><th>Bilge Holding</th><th>MGO Overflow</th><th>MGO Overflow</th>
+                 <th>Sep. Bilge Oil</th><th>Sludge (S)</th><th>Sludge (P)</th><th>MGE 1 Sump</th><th>MGE 2 Sump</th>
+                 <th>MGE 3 Sump</th><th>MGE 4 Sump</th><th>MGE 5 Sump</th>
+               </tr>
+              </thead>
+                <tbody>
+                <tr>
+                <td>0</td>
+                <td>1.2</td>
+                <td>0</td>
+                <td>1</td>
+                <td>0.1</td>
+                <td>0.1</td>
+                <td>0.2</td>
+                <td>0.2</td>
+                <td>0.2</td>
+                <td>0.7</td>
+                <td>0.7</td>
+                <td>0.7</td>
+                <td>0.7</td>
+                <td>0.7</td>
+                </tr>
+                <tr>
+                <td>5</td>
+                <td>3.4</td>
+                <td>0.1</td>
+                <td>2.7</td>
+                <td>0.2</td>
+                <td>0.2</td>
+                <td>0.4</td>
+                <td>0.7</td>
+                <td>0.7</td>
+                <td>1.8</td>
+                <td>1.8</td>
+                <td>1.7</td>
+                <td>1.7</td>
+                <td>1.7</td>
+                </tr>
+                <tr>
+                <td>10</td>
+                <td>6</td>
+                <td>0.2</td>
+                <td>4.6</td>
+                <td>0.4</td>
+                <td>0.3</td>
+                <td>0.6</td>
+                <td>1.2</td>
+                <td>1.2</td>
+                <td>2.9</td>
+                <td>2.8</td>
+                <td>2.8</td>
+                <td>2.7</td>
+                <td>2.7</td>
+                </tr>
+                <tr>
+                <td>15</td>
+                <td>8.8</td>
+                <td>0.3</td>
+                <td>6.7</td>
+                <td>0.6</td>
+                <td>0.5</td>
+                <td>0.8</td>
+                <td>1.8</td>
+                <td>1.8</td>
+                <td>3.9</td>
+                <td>3.8</td>
+                <td>3.8</td>
+                <td>3.6</td>
+                <td>3.7</td>
+                </tr>
+                <tr>
+                <td>20</td>
+                <td>11.9</td>
+                <td>0.4</td>
+                <td>8.8</td>
+                <td>0.9</td>
+                <td>0.7</td>
+                <td>1.1</td>
+                <td>2.4</td>
+                <td>2.4</td>
+                <td>5</td>
+                <td>4.9</td>
+                <td>4.8</td>
+                <td>4.6</td>
+                <td>4.7</td>
+                </tr>
+                <tr>
+                <td>25</td>
+                <td>15.1</td>
+                <td>0.7</td>
+                <td>11.1</td>
+                <td>1.1</td>
+                <td>1</td>
+                <td>1.5</td>
+                <td>3</td>
+                <td>3</td>
+                <td>6</td>
+                <td>5.9</td>
+                <td>5.8</td>
+                <td>5.6</td>
+                <td>5.7</td>
+                </tr>
+                <tr>
+                <td>30</td>
+                <td class=xl15174 align=right>18.5</td>
+                <td class=xl15174 align=right>0.9</td>
+                <td class=xl15174 align=right>13.5</td>
+                <td class=xl15174 align=right>1.4</td>
+                <td class=xl15174 align=right>1.2</td>
+                <td class=xl15174 align=right>2</td>
+                <td class=xl15174 align=right>3.6</td>
+                <td class=xl15174 align=right>3.6</td>
+                <td class=xl15174 align=right>7.1</td>
+                <td class=xl15174 align=right>6.9</td>
+                <td class=xl15174 align=right>6.8</td>
+                <td class=xl15174 align=right>6.6</td>
+                <td class=xl15174 align=right>6.7</td>
+                </tr>
+                <tr>
+                <td>35</td>
+                <td class=xl15174 align=right>22.1</td>
+                <td class=xl15174 align=right>1.2</td>
+                <td class=xl15174 align=right>15.9</td>
+                <td class=xl15174 align=right>1.8</td>
+                <td class=xl15174 align=right>1.5</td>
+                <td class=xl15174 align=right>2.5</td>
+                <td class=xl15174 align=right>4.2</td>
+                <td class=xl15174 align=right>4.2</td>
+                <td class=xl15174 align=right>8.2</td>
+                <td class=xl15174 align=right>8</td>
+                <td class=xl15174 align=right>7.8</td>
+                <td class=xl15174 align=right>7.6</td>
+                <td class=xl15174 align=right>7.7</td>
+                </tr>
+                <tr>
+                <td>40</td>
+                <td class=xl15174 align=right>25.8</td>
+                <td class=xl15174 align=right>1.6</td>
+                <td class=xl15174 align=right>18.4</td>
+                <td class=xl15174 align=right>2.1</td>
+                <td class=xl15174 align=right>1.8</td>
+                <td class=xl15174 align=right>3.2</td>
+                <td class=xl15174 align=right>4.8</td>
+                <td class=xl15174 align=right>4.8</td>
+                <td class=xl15174 align=right>9.2</td>
+                <td class=xl15174 align=right>9</td>
+                <td class=xl15174 align=right>8.9</td>
+                <td class=xl15174 align=right>8.6</td>
+                <td class=xl15174 align=right>8.7</td>
+                </tr>
+                <tr>
+                <td>45</td>
+                <td class=xl15174 align=right>29.6</td>
+                <td class=xl15174 align=right>2.1</td>
+                <td class=xl15174 align=right>21</td>
+                <td class=xl15174 align=right>2.4</td>
+                <td class=xl15174 align=right>2.1</td>
+                <td class=xl15174 align=right>3.9</td>
+                <td class=xl15174 align=right>5.4</td>
+                <td class=xl15174 align=right>5.4</td>
+                <td class=xl15174 align=right>10.3</td>
+                <td class=xl15174 align=right>10</td>
+                <td class=xl15174 align=right>9.9</td>
+                <td class=xl15174 align=right>9.6</td>
+                <td class=xl15174 align=right>9.7</td>
+                </tr>
+                <tr>
+                <td>50</td>
+                <td class=xl15174 align=right>33.5</td>
+                <td class=xl15174 align=right>2.7</td>
+                <td class=xl15174 align=right>23.6</td>
+                <td class=xl15174 align=right>2.8</td>
+                <td class=xl15174 align=right>2.4</td>
+                <td class=xl15174 align=right>4.7</td>
+                <td class=xl15174 align=right>6</td>
+                <td class=xl15174 align=right>6</td>
+                <td class=xl15174 align=right>11.3</td>
+                <td class=xl15174 align=right>11.1</td>
+                <td class=xl15174 align=right>10.9</td>
+                <td class=xl15174 align=right>10.6</td>
+                <td class=xl15174 align=right>10.7</td>
+                </tr>
+                <tr>
+                <td>55</td>
+                <td class=xl15174 align=right>37.5</td>
+                <td class=xl15174 align=right>3.4</td>
+                <td class=xl15174 align=right>26.2</td>
+                <td class=xl15174 align=right>3.2</td>
+                <td class=xl15174 align=right>2.7</td>
+                <td class=xl15174 align=right>5.6</td>
+                <td class=xl15174 align=right>6.6</td>
+                <td class=xl15174 align=right>6.6</td>
+                <td class=xl15174 align=right>12.4</td>
+                <td class=xl15174 align=right>12.1</td>
+                <td class=xl15174 align=right>11.9</td>
+                <td class=xl15174 align=right>11.5</td>
+                <td class=xl15174 align=right>11.7</td>
+                </tr>
+                <tr>
+                <td>60</td>
+                <td class=xl15174 align=right>41.5</td>
+                <td class=xl15174 align=right>4.2</td>
+                <td class=xl15174 align=right>28.9</td>
+                <td class=xl15174 align=right>3.6</td>
+                <td class=xl15174 align=right>3.1</td>
+                <td class=xl15174 align=right>6.6</td>
+                <td class=xl15174 align=right>7.2</td>
+                <td class=xl15174 align=right>7.2</td>
+                <td class=xl15174 align=right>13.5</td>
+                <td class=xl15174 align=right>13.1</td>
+                <td class=xl15174 align=right>12.9</td>
+                <td class=xl15174 align=right>12.5</td>
+                <td class=xl15174 align=right>12.7</td>
+                </tr>
+                <tr>
+                <td>65</td>
+                <td class=xl15174 align=right>45.7</td>
+                <td class=xl15174 align=right>5</td>
+                <td class=xl15174 align=right>31.6</td>
+                <td class=xl15174 align=right>4</td>
+                <td class=xl15174 align=right>3.4</td>
+                <td class=xl15174 align=right>7.6</td>
+                <td class=xl15174 align=right>7.8</td>
+                <td class=xl15174 align=right>7.8</td>
+                <td class=xl15174 align=right>14.5</td>
+                <td class=xl15174 align=right>14.2</td>
+                <td class=xl15174 align=right>14</td>
+                <td class=xl15174 align=right>13.5</td>
+                <td class=xl15174 align=right>13.7</td>
+                </tr>
+                <tr>
+                <td>70</td>
+                <td class=xl15174 align=right>49.9</td>
+                <td class=xl15174 align=right>5.9</td>
+                <td class=xl15174 align=right>34.3</td>
+                <td class=xl15174 align=right>4.5</td>
+                <td class=xl15174 align=right>3.8</td>
+                <td class=xl15174 align=right>8.5</td>
+                <td class=xl15174 align=right>8.4</td>
+                <td class=xl15174 align=right>8.4</td>
+                <td class=xl15174 align=right>15.6</td>
+                <td class=xl15174 align=right>15.2</td>
+                <td class=xl15174 align=right>15</td>
+                <td class=xl15174 align=right>14.5</td>
+                <td class=xl15174 align=right>14.7</td>
+                </tr>
+                <tr>
+                <td>75</td>
+                <td class=xl15174 align=right>54.1</td>
+                <td class=xl15174 align=right>6.9</td>
+                <td class=xl15174 align=right>37</td>
+                <td class=xl15174 align=right>4.9</td>
+                <td class=xl15174 align=right>4.2</td>
+                <td class=xl15174 align=right>9.6</td>
+                <td class=xl15174 align=right>9</td>
+                <td class=xl15174 align=right>9</td>
+                <td class=xl15174 align=right>16.6</td>
+                <td class=xl15174 align=right>16.2</td>
+                <td class=xl15174 align=right>16</td>
+                <td class=xl15174 align=right>15.5</td>
+                <td class=xl15174 align=right>15.7</td>
+                </tr>
+                <tr>
+                <td>80</td>
+                <td class=xl15174 align=right>58.5</td>
+                <td class=xl15174 align=right>7.8</td>
+                <td class=xl15174 align=right>39.7</td>
+                <td class=xl15174 align=right>5.4</td>
+                <td class=xl15174 align=right>4.6</td>
+                <td class=xl15174 align=right>10.6</td>
+                <td class=xl15174 align=right>9.6</td>
+                <td class=xl15174 align=right>9.6</td>
+                <td class=xl15174 align=right>17.7</td>
+                <td class=xl15174 align=right>17.3</td>
+                <td class=xl15174 align=right>17</td>
+                <td class=xl15174 align=right>16.5</td>
+                <td class=xl15174 align=right>16.8</td>
+                </tr>
+                <tr>
+                <td>85</td>
+                <td class=xl15174 align=right>62.9</td>
+                <td class=xl15174 align=right>8.8</td>
+                <td class=xl15174 align=right>42.5</td>
+                <td class=xl15174 align=right>5.8</td>
+                <td class=xl15174 align=right>5</td>
+                <td class=xl15174 align=right>11.8</td>
+                <td class=xl15174 align=right>10.2</td>
+                <td class=xl15174 align=right>10.2</td>
+                <td class=xl15174 align=right>18.6</td>
+                <td class=xl15174 align=right>18.2</td>
+                <td class=xl15174 align=right>17.9</td>
+                <td class=xl15174 align=right>17.3</td>
+                <td class=xl15174 align=right>17.6</td>
+                </tr>
+                <tr>
+                <td>90</td>
+                <td class=xl15174 align=right>67.3</td>
+                <td class=xl15174 align=right>9.9</td>
+                <td class=xl15174 align=right>45.3</td>
+                <td class=xl15174 align=right>6.3</td>
+                <td class=xl15174 align=right>5.4</td>
+                <td class=xl15174 align=right>13.2</td>
+                <td class=xl15174 align=right>10.8</td>
+                <td class=xl15174 align=right>10.8</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                </tr>
+                <tr>
+                <td>95</td>
+                <td class=xl15174 align=right>71.8</td>
+                <td class=xl15174 align=right>10.9</td>
+                <td class=xl15174 align=right>48.1</td>
+                <td class=xl15174 align=right>6.8</td>
+                <td class=xl15174 align=right>5.8</td>
+                <td class=xl15174 align=right>14.6</td>
+                <td class=xl15174 align=right>11.4</td>
+                <td class=xl15174 align=right>11.4</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                </tr>
+                <tr>
+                <td>100</td>
+                <td class=xl15174 align=right>76.4</td>
+                <td class=xl15174 align=right>12.2</td>
+                <td class=xl15174 align=right>50.9</td>
+                <td class=xl15174 align=right>7.3</td>
+                <td class=xl15174 align=right>6.3</td>
+                <td class=xl15174 align=right>15.9</td>
+                <td class=xl15174 align=right>11.6</td>
+                <td class=xl15174 align=right>11.6</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                </tr>
+                <tr>
+                <td>105</td>
+                <td class=xl15174 align=right>81</td>
+                <td class=xl15174 align=right>13.6</td>
+                <td class=xl15174 align=right>53.8</td>
+                <td class=xl15174 align=right>7.8</td>
+                <td class=xl15174 align=right>6.7</td>
+                <td class=xl15174 align=right>17.3</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                </tr>
+                <tr>
+                <td>110</td>
+                <td class=xl15174 align=right>85.7</td>
+                <td class=xl15174 align=right>15</td>
+                <td class=xl15174 align=right>56.6</td>
+                <td class=xl15174 align=right>8.4</td>
+                <td class=xl15174 align=right>7.2</td>
+                <td class=xl15174 align=right>18.7</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                </tr>
+                <tr>
+                <td>115</td>
+                <td class=xl15174 align=right>90.4</td>
+                <td class=xl15174 align=right>16.3</td>
+                <td class=xl15174 align=right>59.5</td>
+                <td class=xl15174 align=right>8.9</td>
+                <td class=xl15174 align=right>7.6</td>
+                <td class=xl15174 align=right>20.1</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                </tr>
+                <tr>
+                <td>120</td>
+                <td class=xl15174 align=right>95.2</td>
+                <td class=xl15174 align=right>17.7</td>
+                <td class=xl15174 align=right>62.4</td>
+                <td class=xl15174 align=right>9.4</td>
+                <td class=xl15174 align=right>8.1</td>
+                <td class=xl15174 align=right>21.5</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>125</td>
+                <td class=xl15174 align=right>100.1</td>
+                <td class=xl15174 align=right>19.1</td>
+                <td class=xl15174 align=right>65.3</td>
+                <td class=xl15174 align=right>10</td>
+                <td class=xl15174 align=right>8.6</td>
+                <td class=xl15174 align=right>23</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>130</td>
+                <td class=xl15174 align=right>104.9</td>
+                <td class=xl15174 align=right>20.5</td>
+                <td class=xl15174 align=right>68.3</td>
+                <td class=xl15174 align=right>10.6</td>
+                <td class=xl15174 align=right>9.1</td>
+                <td class=xl15174 align=right>24.4</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>135</td>
+                <td class=xl15174 align=right>109.9</td>
+                <td class=xl15174 align=right>21.9</td>
+                <td class=xl15174 align=right>71.2</td>
+                <td class=xl15174 align=right>11.1</td>
+                <td class=xl15174 align=right>9.6</td>
+                <td class=xl15174 align=right>25.9</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>140</td>
+                <td class=xl15174 align=right>114.8</td>
+                <td class=xl15174 align=right>23.4</td>
+                <td class=xl15174 align=right>74.2</td>
+                <td class=xl15174 align=right>11.7</td>
+                <td class=xl15174 align=right>10.1</td>
+                <td class=xl15174 align=right>27.3</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>145</td>
+                <td class=xl15174 align=right>119.9</td>
+                <td class=xl15174 align=right>24.9</td>
+                <td class=xl15174 align=right>77.1</td>
+                <td class=xl15174 align=right>12.3</td>
+                <td class=xl15174 align=right>10.6</td>
+                <td class=xl15174 align=right>28.7</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>150</td>
+                <td class=xl15174 align=right>124.9</td>
+                <td class=xl15174 align=right>26.3</td>
+                <td class=xl15174 align=right>80.1</td>
+                <td class=xl15174 align=right>12.9</td>
+                <td class=xl15174 align=right>11.1</td>
+                <td class=xl15174 align=right>30.2</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>155</td>
+                <td class=xl15174 align=right>130</td>
+                <td class=xl15174 align=right>27.8</td>
+                <td class=xl15174 align=right>83.1</td>
+                <td class=xl15174 align=right>13.5</td>
+                <td class=xl15174 align=right>11.7</td>
+                <td class=xl15174 align=right>31.6</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>160</td>
+                <td class=xl15174 align=right>135.2</td>
+                <td class=xl15174 align=right>29.3</td>
+                <td class=xl15174 align=right>86.2</td>
+                <td class=xl15174 align=right>14.1</td>
+                <td class=xl15174 align=right>12.2</td>
+                <td class=xl15174 align=right>33.1</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>165</td>
+                <td class=xl15174 align=right>140.4</td>
+                <td class=xl15174 align=right>30.7</td>
+                <td class=xl15174 align=right>89.2</td>
+                <td class=xl15174 align=right>14.8</td>
+                <td class=xl15174 align=right>12.8</td>
+                <td class=xl15174 align=right>34.5</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>170</td>
+                <td class=xl15174 align=right>145.5</td>
+                <td class=xl15174 align=right>32.2</td>
+                <td class=xl15174 align=right>92.1</td>
+                <td class=xl15174 align=right>15.4</td>
+                <td class=xl15174 align=right>13.3</td>
+                <td class=xl15174 align=right>35.9</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>175</td>
+                <td class=xl15174 align=right>150.5</td>
+                <td class=xl15174 align=right>33.7</td>
+                <td class=xl15174 align=right>95</td>
+                <td class=xl15174 align=right>16</td>
+                <td class=xl15174 align=right>13.9</td>
+                <td class=xl15174 align=right>37.4</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>180</td>
+                <td class=xl15174 align=right>155.7</td>
+                <td class=xl15174 align=right>35.1</td>
+                <td class=xl15174 align=right>97.8</td>
+                <td class=xl15174 align=right>16.7</td>
+                <td class=xl15174 align=right>14.5</td>
+                <td class=xl15174 align=right>38.8</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>185</td>
+                <td class=xl15174 align=right>160.8</td>
+                <td class=xl15174 align=right>36.6</td>
+                <td class=xl15174 align=right>100.7</td>
+                <td class=xl15174 align=right>17.3</td>
+                <td class=xl15174 align=right>15</td>
+                <td class=xl15174 align=right>40.3</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>190</td>
+                <td class=xl15174 align=right>166</td>
+                <td class=xl15174 align=right>38</td>
+                <td class=xl15174 align=right>103.6</td>
+                <td class=xl15174 align=right>18</td>
+                <td class=xl15174 align=right>15.6</td>
+                <td class=xl15174 align=right>41.7</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>195</td>
+                <td class=xl15174 align=right>171.2</td>
+                <td class=xl15174 align=right>39.5</td>
+                <td class=xl15174 align=right>106.6</td>
+                <td class=xl15174 align=right>18.7</td>
+                <td class=xl15174 align=right>16.2</td>
+                <td class=xl15174 align=right>43.2</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>200</td>
+                <td class=xl15174 align=right>176.5</td>
+                <td class=xl15174 align=right>41</td>
+                <td class=xl15174 align=right>109.5</td>
+                <td class=xl15174 align=right>19.4</td>
+                <td class=xl15174 align=right>16.8</td>
+                <td class=xl15174 align=right>44</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>205</td>
+                <td class=xl15174 align=right>181.8</td>
+                <td class=xl15174 align=right>42.4</td>
+                <td class=xl15174 align=right>112.4</td>
+                <td class=xl15174 align=right>20.1</td>
+                <td class=xl15174 align=right>17.4</td>
+                <td class=xl15174 align=right>44.5</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>210</td>
+                <td class=xl15174 align=right>187.2</td>
+                <td class=xl15174 align=right>43.8</td>
+                <td class=xl15174 align=right>115.4</td>
+                <td class=xl15174 align=right>20.7</td>
+                <td class=xl15174 align=right>18</td>
+                <td class=xl15174 align=right>45</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>215</td>
+                <td class=xl15174 align=right>192.5</td>
+                <td class=xl15174 align=right>44.3</td>
+                <td class=xl15174 align=right>118.4</td>
+                <td class=xl15174 align=right>21.5</td>
+                <td class=xl15174 align=right>18.6</td>
+                <td class=xl15174 align=right>45.4</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>220</td>
+                <td class=xl15174 align=right>197.9</td>
+                <td class=xl15174 align=right>44.8</td>
+                <td class=xl15174 align=right>121.3</td>
+                <td class=xl15174 align=right>22.2</td>
+                <td class=xl15174 align=right>19.3</td>
+                <td class=xl15174 align=right>45.8</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>225</td>
+                <td class=xl15174 align=right>203.4</td>
+                <td class=xl15174 align=right>45.2</td>
+                <td class=xl15174 align=right>124.3</td>
+                <td class=xl15174 align=right>22.9</td>
+                <td class=xl15174 align=right>19.9</td>
+                <td class=xl15174 align=right>46.1</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>230</td>
+                <td class=xl15174 align=right>208.9</td>
+                <td class=xl15174 align=right>45.6</td>
+                <td class=xl15174 align=right>127.3</td>
+                <td class=xl15174 align=right>23.6</td>
+                <td class=xl15174 align=right>20.5</td>
+                <td class=xl15174 align=right>46.4</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>235</td>
+                <td class=xl15174 align=right>214.4</td>
+                <td class=xl15174 align=right>45.9</td>
+                <td class=xl15174 align=right>130.3</td>
+                <td class=xl15174 align=right>24.3</td>
+                <td class=xl15174 align=right>21.2</td>
+                <td class=xl15174 align=right>46.7</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>240</td>
+                <td class=xl15174 align=right>219.9</td>
+                <td class=xl15174 align=right>46.3</td>
+                <td class=xl15174 align=right>133.4</td>
+                <td class=xl15174 align=right>25.1</td>
+                <td class=xl15174 align=right>21.8</td>
+                <td class=xl15174 align=right>46.9</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>245</td>
+                <td class=xl15174 align=right>225.5</td>
+                <td class=xl15174 align=right>46.5</td>
+                <td class=xl15174 align=right>136.4</td>
+                <td class=xl15174 align=right>25.8</td>
+                <td class=xl15174 align=right>22.4</td>
+                <td class=xl15174 align=right>47.1</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>250</td>
+                <td class=xl15174 align=right>228.3</td>
+                <td class=xl15174 align=right>46.8</td>
+                <td class=xl15174 align=right>137.7</td>
+                <td class=xl15174 align=right>26</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174 align=right>47.3</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>255</td>
+                <td class=xl15174 align=right>229.9</td>
+                <td class=xl15174 align=right>47</td>
+                <td class=xl15174 align=right>138.1</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174 align=right>47.4</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>260</td>
+                <td class=xl15174 align=right>231.3</td>
+                <td class=xl15174 align=right>47.2</td>
+                <td class=xl15174 align=right>138.6</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174 align=right>47.5</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>265</td>
+                <td class=xl15174 align=right>232.6</td>
+                <td class=xl15174 align=right>47.3</td>
+                <td class=xl15174 align=right>139</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174 align=right>47.5</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>270</td>
+                <td class=xl15174 align=right>233.9</td>
+                <td class=xl15174 align=right>47.4</td>
+                <td class=xl15174 align=right>139.4</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174 align=right>47.5</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>275</td>
+                <td class=xl15174 align=right>235</td>
+                <td class=xl15174 align=right>47.5</td>
+                <td class=xl15174 align=right>139.7</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174>-</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>280</td>
+                <td class=xl15174 align=right>236</td>
+                <td class=xl15174 align=right>47.5</td>
+                <td class=xl15174 align=right>140</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174>-</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>285</td>
+                <td class=xl15174 align=right>236.8</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174 align=right>140.3</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>290</td>
+                <td class=xl15174 align=right>237.6</td>
+                <td class=xl15174>-</td>
+                <td class=xl15174 align=right>140.5</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>295</td>
+                <td class=xl15174 align=right>238.3</td>
+                <td class=xl15174></td>
+                <td class=xl15174 align=right>140.7</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>300</td>
+                <td class=xl15174 align=right>238.7</td>
+                <td class=xl15174></td>
+                <td class=xl15174 align=right>140.8</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>305</td>
+                <td class=xl15174 align=right>239.1</td>
+                <td class=xl15174></td>
+                <td class=xl15174 align=right>141</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>310</td>
+                <td class=xl15174 align=right>239.4</td>
+                <td class=xl15174></td>
+                <td class=xl15174 align=right>141</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>315</td>
+                <td class=xl15174 align=right>239.6</td>
+                <td class=xl15174></td>
+                <td class=xl15174 align=right>141.1</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                <tr>
+                <td>320</td>
+                <td class=xl15174 align=right>239.6</td>
+                <td class=xl15174></td>
+                <td class=xl15174 align=right>141.1</td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                <td class=xl15174></td>
+                </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="tab3" class="tab-content">
+            <h2 style="text-align: center;">Fresh Water Figures</h2>
+            <div class="fwg-container">
+                <div>
+                    <div class="fwg-input-group">
+                        <label for="currentFWG1">FWG 1:</label>
+                        <input type="text" id="currentFWG1" placeholder="Current FWG1">
+                    </div>
+                    <div class="fwg-input-group">
+                        <label for="currentFWG2">FWG 2:</label>
+                        <input type="text" id="currentFWG2" placeholder="Current FWG2">
+                    </div>
+                    <div class="fwg-input-group">
+                        <label for="distil">Distil:</label>
+                        <input type="text" id="distil" placeholder="Distil">
+                    </div>
+                    <div class="fwg-input-group">
+                        <label for="portable">Portable:</label>
+                        <input type="text" id="portable" placeholder="Portable">
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="fwg-input-group">
+                        <label for="previousFWG1">Previous FWG 1:</label>
+                        <input type="text" id="previousFWG1" placeholder="Previous FWG1">
+                    </div>
+                    <div class="fwg-input-group">
+                        <label for="previousFWG2">Previous FWG 2:</label>
+                        <input type="text" id="previousFWG2" placeholder="Previous FWG2">
+                    </div>
+                    <div class="fwg-input-group">
+                        <label for="distilPortable">Distil/Portable:</label>
+                        <input type="text" id="distilPortable" placeholder="Distil/Portable">
+                    </div>
+                    <div class="fwg-input-group">
+                        <label for="previousROB">Previous ROB:</label>
+                        <input type="text" id="previousROB" placeholder="Previous ROB">
+                    </div>
+                </div>
+            </div>
+
+            <div class="fwg-result-container">
+                <button onclick="calculateWaterFigures()">Calculate</button>
+                <div class="fwg-results">
+		    <p id="producedSBResult">Produced (S): 0</p>
+		    <p id="producedPORTResult">Produced (P): 0</p>
+		    <p id="totalProducedResult">Total Produced: 0</p>
+		    <p id="usedResult">Used: 0</p>
+                    <p id="currentROBResult">ROB: 0</p>
+                </div>
+            </div>
+	  <div class="print-div"><button class="print-button" onclick="alert('Print functionality is coming soon ...')">Print</button></div>
+        </div>
+
+        <div id="tab4" class="tab-content">
+            <h2 style="text-align: center;">Interpolation Of Tank Sounding For Any Vessel</h2>
+            <div class="interpolation-container">
+                <div>
+                    <div class="interpolation-input-group">
+                        <label for="lowerSoundingValue">Lower sounding</label>
+                        <input type="text" id="lowerSoundingValue" placeholder="Enter lower value from sounding table">
+                    </div>
+                    <div class="interpolation-input-group">
+                        <label for="upperSoundingValue">Upper sounding</label>
+                        <input type="text" id="upperSoundingValue" placeholder="Enter upper value from sounding table ">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="interpolation-input-group">
+                        <label for="lowerVolumeValue">Lower volume</label>
+                        <input type="text" id="lowerVolumeValue" placeholder="Enter corresponding lower volume from sounding table">
+                    </div>
+                    <div class="interpolation-input-group">
+                        <label for="upperVolumeValue">Upper volume</label>
+                        <input type="text" id="upperVolumeValue" placeholder="Enter corresponding upper volume from sounding table">
+                    </div>
+                </div>
+                
+            </div>
+
+            
+            <div class="interpolation-result-container">
+                <div class="interpolation-result-input">
+                    <label for="currentSoundingInput">Current tank sounding</label>
+                    <input type="text" id="currentSoundingInput" placeholder="Enter current sounding value">
+                </div>
+                <button onclick="interpolate()">Calculate</button>
+                <div class="interpolation-result">
+                    <p id="interpolationResult">Result: 0</p>
+                </div>
+            </div>
+	  <div class="print-div"><button class="print-button" onclick="alert('Print functionality is coming soon ...')">Print</button></div>
+        </div>
+        
+        <footer >
+            <span><a href="https://eneotu.com" target="_blank">www.eneotu.com</a></span>
+            <p>&copy; <span id="currentYear"></span> | Designed By Eneotu Joe</p>
+        </footer>
+    </main>
+    
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`[onclick="openTab('${tabId}')"]`).classList.add('active');
+        }
+
+        function calculateCDT() {
+            const currentCDTSounding = parseFloat(document.getElementById('inputCDT').value);
+            const rows = document.querySelectorAll('#soundingTable tbody tr');
+            let X1, X2, Y1, Y2;
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let lowerCDTSounding = parseFloat(rows[i].children[0].textContent);
+                let upperCDTSounding = parseFloat(rows[i + 1].children[0].textContent);
+                if (currentCDTSounding >= lowerCDTSounding && currentCDTSounding <= upperCDTSounding) {
+                    X1 = lowerCDTSounding;
+                    X2 = upperCDTSounding;
+                    Y1 = parseFloat(rows[i].children[1].textContent);
+                    Y2 = parseFloat(rows[i + 1].children[1].textContent);
+                    break;
+                }
+            }
+
+            if (X1 !== undefined && X2 !== undefined) {
+                const interpolatedCDT = Y1 + ((currentCDTSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                document.getElementById('CDTResult').innerHTML = `${interpolatedCDT.toFixed(2)} m<sup>3</sup>`;
+            } else {
+                document.getElementById('CDTResult').textContent = 'Value is out of range';
+            }
+        }
+
+        function calculateCBT() {
+            const currentCBTSounding = parseFloat(document.getElementById('inputCBT').value);
+            const rows = document.querySelectorAll('#soundingTable tbody tr');
+            let X1, X2, Y1, Y2;
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let lowerCBTSounding = parseFloat(rows[i].children[0].textContent);
+                let upperCBTSounding = parseFloat(rows[i + 1].children[0].textContent);
+                if (currentCBTSounding >= lowerCBTSounding && currentCBTSounding <= upperCBTSounding) {
+                    X1 = lowerCBTSounding;
+                    X2 = upperCBTSounding;
+                    Y1 = parseFloat(rows[i].children[2].textContent);
+                    Y2 = parseFloat(rows[i + 1].children[2].textContent);
+                    break;
+                }
+            }
+
+            if (X1 !== undefined && X2 !== undefined) {
+                const interpolatedCBT = Y1 + ((currentCBTSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                document.getElementById('CBTResult').innerHTML = `${interpolatedCBT.toFixed(2)} m<sup>3</sup>`;
+            } else {
+                document.getElementById('CBTResult').textContent = 'Value is out of range';
+            }
+        }
+
+        function calculateBHT() {
+            const currentBHTSounding = parseFloat(document.getElementById('inputBHT').value);
+            const rows = document.querySelectorAll('#soundingTable tbody tr');
+            let X1, X2, Y1, Y2;
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let lowerBHTSounding = parseFloat(rows[i].children[0].textContent);
+                let upperBHTSounding = parseFloat(rows[i + 1].children[0].textContent);
+                if (currentBHTSounding >= lowerBHTSounding && currentBHTSounding <= upperBHTSounding) {
+                    X1 = lowerBHTSounding;
+                    X2 = upperBHTSounding;
+                    Y1 = parseFloat(rows[i].children[3].textContent);
+                    Y2 = parseFloat(rows[i + 1].children[3].textContent);
+                    break;
+                }
+            }
+
+            if (X1 !== undefined && X2 !== undefined) {
+                const interpolatedBHT = Y1 + ((currentBHTSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                document.getElementById('BHTResult').innerHTML = `${interpolatedBHT.toFixed(2)} m<sup>3</sup>`;
+            } else {
+                document.getElementById('BHTResult').textContent = 'Value is out of range';
+            }
+        }
+
+        function calculateMGO() {
+            const currentMGOSounding = parseFloat(document.getElementById('inputMGO').value);
+            const rows = document.querySelectorAll('#soundingTable tbody tr');
+            let X1, X2, Y1, Y2;
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let lowerMGOSounding = parseFloat(rows[i].children[0].textContent);
+                let upperMGOSounding = parseFloat(rows[i + 1].children[0].textContent);
+                if (currentMGOSounding >= lowerMGOSounding && currentMGOSounding <= upperMGOSounding) {
+                    X1 = lowerMGOSounding;
+                    X2 = upperMGOSounding;
+                    Y1 = parseFloat(rows[i].children[4].textContent);
+                    Y2 = parseFloat(rows[i + 1].children[4].textContent);
+                    break;
+                }
+            }
+
+            if (X1 !== undefined && X2 !== undefined) {
+                const interpolatedMGO = Y1 + ((currentMGOSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                document.getElementById('MGOResult').innerHTML = `${interpolatedMGO.toFixed(2)} m<sup>3</sup>`;
+            } else {
+                document.getElementById('MGOResult').textContent = 'Value is out of range';
+            }
+        }
+
+        function calculateHFO() {
+            const currentHFOSounding = parseFloat(document.getElementById('inputHFO').value);
+            const rows = document.querySelectorAll('#soundingTable tbody tr');
+            let X1, X2, Y1, Y2;
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let lowerHFOSounding = parseFloat(rows[i].children[0].textContent);
+                let upperHFOSounding = parseFloat(rows[i + 1].children[0].textContent);
+                if (currentHFOSounding >= lowerHFOSounding && currentHFOSounding <= upperHFOSounding) {
+                    X1 = lowerHFOSounding;
+                    X2 = upperHFOSounding;
+                    Y1 = parseFloat(rows[i].children[5].textContent);
+                    Y2 = parseFloat(rows[i + 1].children[5].textContent);
+                    break;
+                }
+            }
+
+            if (X1 !== undefined && X2 !== undefined) {
+                const interpolatedHFO = Y1 + ((currentHFOSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                document.getElementById('HFOResult').innerHTML = `${interpolatedHFO.toFixed(2)} m<sup>3</sup>`;
+            } else {
+                document.getElementById('HFOResult').textContent = 'Value is out of range';
+            }
+        }
+
+        function calculateSBOT() {
+            const currentSBOTSounding = parseFloat(document.getElementById('inputSBOT').value);
+            const rows = document.querySelectorAll('#soundingTable tbody tr');
+            let X1, X2, Y1, Y2;
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let lowerSBOTSounding = parseFloat(rows[i].children[0].textContent);
+                let upperSBOTSounding = parseFloat(rows[i + 1].children[0].textContent);
+                if (currentSBOTSounding >= lowerSBOTSounding && currentSBOTSounding <= upperSBOTSounding) {
+                    X1 = lowerSBOTSounding;
+                    X2 = upperSBOTSounding;
+                    Y1 = parseFloat(rows[i].children[6].textContent);
+                    Y2 = parseFloat(rows[i + 1].children[6].textContent);
+                    break;
+                }
+            }
+
+            if (X1 !== undefined && X2 !== undefined) {
+                const interpolatedSBOT = Y1 + ((currentSBOTSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                document.getElementById('SBOTResult').innerHTML = `${interpolatedSBOT.toFixed(2)} m<sup>3</sup>`;
+            } else {
+                document.getElementById('SBOTResult').textContent = 'Value is out of range';
+            }
+        }
+
+        function calculateSludgeSB() {
+            const currentSludgeSBSounding = parseFloat(document.getElementById('inputSludgeSB').value);
+            const rows = document.querySelectorAll('#soundingTable tbody tr');
+            let X1, X2, Y1, Y2;
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let lowerSludgeSBSounding = parseFloat(rows[i].children[0].textContent);
+                let upperSludgeSBSounding = parseFloat(rows[i + 1].children[0].textContent);
+                if (currentSludgeSBSounding >= lowerSludgeSBSounding && currentSludgeSBSounding <= upperSludgeSBSounding) {
+                    X1 = lowerSludgeSBSounding;
+                    X2 = upperSludgeSBSounding;
+                    Y1 = parseFloat(rows[i].children[7].textContent);
+                    Y2 = parseFloat(rows[i + 1].children[7].textContent);
+                    break;
+                }
+            }
+
+            if (X1 !== undefined && X2 !== undefined) {
+                const interpolatedSludgeSB = Y1 + ((currentSludgeSBSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                document.getElementById('sludgeSBResult').innerHTML = `${interpolatedSludgeSB.toFixed(2)} m<sup>3</sup>`;
+            } else {
+                document.getElementById('sludgeSBResult').textContent = 'Value is out of range';
+            }
+        }
+
+        function calculateSludgePORT() {
+            const currentSludgePORTSounding = parseFloat(document.getElementById('inputSludgePORT').value);
+            const rows = document.querySelectorAll('#soundingTable tbody tr');
+            let X1, X2, Y1, Y2;
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let lowerSludgePORTSounding = parseFloat(rows[i].children[0].textContent);
+                let upperSludgePORTSounding = parseFloat(rows[i + 1].children[0].textContent);
+                if (currentSludgePORTSounding >= lowerSludgePORTSounding && currentSludgePORTSounding <= upperSludgePORTSounding) {
+                    X1 = lowerSludgePORTSounding;
+                    X2 = upperSludgePORTSounding;
+                    Y1 = parseFloat(rows[i].children[8].textContent);
+                    Y2 = parseFloat(rows[i + 1].children[8].textContent);
+                    break;
+                }
+            }
+
+            if (X1 !== undefined && X2 !== undefined) {
+                const interpolatedSludgePORT = Y1 + ((currentSludgePORTSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                document.getElementById('sludgePORTResult').innerHTML = `${interpolatedSludgePORT.toFixed(2)} m<sup>3</sup>`;
+            } else {
+                document.getElementById('sludgePORTResult').textContent = 'Value is out of range';
+            }
+        }
+
+        function calculateMGE1Sump() {
+            const currentMGE1SumpSounding = parseFloat(document.getElementById('inputMGE1Sump').value);
+            const rows = document.querySelectorAll('#soundingTable tbody tr');
+            let X1, X2, Y1, Y2;
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let lowerMGE1SumpSounding = parseFloat(rows[i].children[0].textContent);
+                let upperMGE1SumpSounding = parseFloat(rows[i + 1].children[0].textContent);
+                if (currentMGE1SumpSounding >= lowerMGE1SumpSounding && currentMGE1SumpSounding <= upperMGE1SumpSounding) {
+                    X1 = lowerMGE1SumpSounding;
+                    X2 = upperMGE1SumpSounding;
+                    Y1 = parseFloat(rows[i].children[9].textContent);
+                    Y2 = parseFloat(rows[i + 1].children[9].textContent);
+                    break;
+                }
+            }
+
+            if (X1 !== undefined && X2 !== undefined) {
+                const interpolatedMGE1Sump = Y1 + ((currentMGE1SumpSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                document.getElementById('MGE1SumpResult').innerHTML = `${interpolatedMGE1Sump.toFixed(2)} m<sup>3</sup>`;
+            } else {
+                document.getElementById('MGE1SumpResult').textContent = 'Value is out of range';
+            }
+        }
+
+        function calculateMGE2Sump() {
+            const currentMGE2SumpSounding = parseFloat(document.getElementById('inputMGE2Sump').value);
+            const rows = document.querySelectorAll('#soundingTable tbody tr');
+            let X1, X2, Y1, Y2;
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let lowerMGE2SumpSounding = parseFloat(rows[i].children[0].textContent);
+                let upperMGE2SumpSounding = parseFloat(rows[i + 1].children[0].textContent);
+                if (currentMGE2SumpSounding >= lowerMGE2SumpSounding && currentMGE2SumpSounding <= upperMGE2SumpSounding) {
+                    X1 = lowerMGE2SumpSounding;
+                    X2 = upperMGE2SumpSounding;
+                    Y1 = parseFloat(rows[i].children[10].textContent);
+                    Y2 = parseFloat(rows[i + 1].children[10].textContent);
+                    break;
+                }
+            }
+
+            if (X1 !== undefined && X2 !== undefined) {
+                const interpolatedMGE2Sump = Y1 + ((currentMGE2SumpSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                document.getElementById('MGE2SumpResult').innerHTML = `${interpolatedMGE2Sump.toFixed(2)} m<sup>3</sup>`;
+            } else {
+                document.getElementById('MGE2SumpResult').textContent = 'Value is out of range';
+            }
+        }
+
+
+        function calculateMGE3Sump() {
+            const currentMGE3SumpSounding = parseFloat(document.getElementById('inputMGE3Sump').value);
+            const rows = document.querySelectorAll('#soundingTable tbody tr');
+            let X1, X2, Y1, Y2;
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let lowerMGE3SumpSounding = parseFloat(rows[i].children[0].textContent);
+                let upperMGE3SumpSounding = parseFloat(rows[i + 1].children[0].textContent);
+                if (currentMGE3SumpSounding >= lowerMGE3SumpSounding && currentMGE3SumpSounding <= upperMGE3SumpSounding) {
+                    X1 = lowerMGE3SumpSounding;
+                    X2 = upperMGE3SumpSounding;
+                    Y1 = parseFloat(rows[i].children[11].textContent);
+                    Y2 = parseFloat(rows[i + 1].children[11].textContent);
+                    break;
+                }
+            }
+
+            if (X1 !== undefined && X2 !== undefined) {
+                const interpolatedMGE3Sump = Y1 + ((currentMGE3SumpSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                document.getElementById('MGE3SumpResult').innerHTML = `${interpolatedMGE3Sump.toFixed(2)} m<sup>3</sup>`;
+            } else {
+                document.getElementById('MGE3SumpResult').textContent = 'Value is out of range';
+            }
+        }
+
+        function calculateMGE4Sump() {
+            const currentMGE4SumpSounding = parseFloat(document.getElementById('inputMGE4Sump').value);
+            const rows = document.querySelectorAll('#soundingTable tbody tr');
+            let X1, X2, Y1, Y2;
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let lowerMGE4SumpSounding = parseFloat(rows[i].children[0].textContent);
+                let upperMGE4SumpSounding = parseFloat(rows[i + 1].children[0].textContent);
+                if (currentMGE4SumpSounding >= lowerMGE4SumpSounding && currentMGE4SumpSounding <= upperMGE4SumpSounding) {
+                    X1 = lowerMGE4SumpSounding;
+                    X2 = upperMGE4SumpSounding;
+                    Y1 = parseFloat(rows[i].children[12].textContent);
+                    Y2 = parseFloat(rows[i + 1].children[12].textContent);
+                    break;
+                }
+            }
+
+            if (X1 !== undefined && X2 !== undefined) {
+                const interpolatedMGE4Sump = Y1 + ((currentMGE4SumpSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                document.getElementById('MGE4SumpResult').innerHTML = `${interpolatedMGE4Sump.toFixed(2)} m<sup>3</sup>`;
+            } else {
+                document.getElementById('MGE4SumpResult').textContent = 'Value is out of range';
+            }
+        }
+
+        function calculateMGE5Sump() {
+            const currentMGE5SumpSounding = parseFloat(document.getElementById('inputMGE5Sump').value);
+            const rows = document.querySelectorAll('#soundingTable tbody tr');
+            let X1, X2, Y1, Y2;
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let lowerMGE5SumpSounding = parseFloat(rows[i].children[0].textContent);
+                let upperMGE5SumpSounding = parseFloat(rows[i + 1].children[0].textContent);
+                if (currentMGE5SumpSounding >= lowerMGE5SumpSounding && currentMGE5SumpSounding <= upperMGE5SumpSounding) {
+                    X1 = lowerMGE5SumpSounding;
+                    X2 = upperMGE5SumpSounding;
+                    Y1 = parseFloat(rows[i].children[13].textContent);
+                    Y2 = parseFloat(rows[i + 1].children[13].textContent);
+                    break;
+                }
+            }
+
+            if (X1 !== undefined && X2 !== undefined) {
+                const interpolatedMGE5Sump = Y1 + ((currentMGE5SumpSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                document.getElementById('MGE5SumpResult').innerHTML = `${interpolatedMGE5Sump.toFixed(2)} m<sup>3</sup>`;
+            } else {
+                document.getElementById('MGE5SumpResult').textContent = 'Value is out of range';
+            }
+        }
+
+
+        function calculateWaterFigures() {
+            let currentFWG1 = parseFloat(document.getElementById('currentFWG1').value) || 0;
+            let previousFWG1 = parseFloat(document.getElementById('previousFWG1').value) || 0;
+            let currentFWG2 = parseFloat(document.getElementById('currentFWG2').value) || 0;
+            let previousFWG2 = parseFloat(document.getElementById('previousFWG2').value) || 0;
+            let distil = parseFloat(document.getElementById('distil').value) || 0;
+            let distilPortable = parseFloat(document.getElementById('distilPortable').value) || 0;
+            let portable = parseFloat(document.getElementById('portable').value) || 0;
+            let previousROB = parseFloat(document.getElementById('previousROB').value) || 0;
+
+            let producedSB = currentFWG1 - previousFWG1;
+	    let producedPORT = currentFWG2 - previousFWG2;
+	    let totalProduced = producedSB + producedPORT
+	    let currentROB = distil + distilPortable + portable;
+	    let used = (totalProduced + previousROB) - currentROB;
+
+            document.getElementById('totalProducedResult').innerHTML = `Total Produced: <strong>${totalProduced.toFixed(2)}</strong> m<sup>3</sup>`;
+	    document.getElementById('producedSBResult').innerHTML = `Produced (S): <strong>${producedSB.toFixed(2)}</strong> m<sup>3</sup>`;
+            document.getElementById('producedPORTResult').innerHTML = `Produced (P): <strong>${producedPORT.toFixed(2)}</strong> m<sup>3</sup>`;
+            document.getElementById('usedResult').innerHTML = `Used: <strong>${used.toFixed(2)}</strong> m<sup>3</sup>`;
+	    document.getElementById('currentROBResult').innerHTML = `ROB: <strong>${currentROB.toFixed(2)}</strong> m<sup>3</sup>`;
+        }
+
+        function interpolate() {
+            let lowerSounding = parseFloat(document.getElementById('lowerSoundingValue').value) || 0;
+            let upperSounding = parseFloat(document.getElementById('upperSoundingValue').value) || 0;
+            let lowerVolume = parseFloat(document.getElementById('lowerVolumeValue').value) || 0;
+            let upperVolume = parseFloat(document.getElementById('upperVolumeValue').value) || 0;
+            let currentSounding = parseFloat(document.getElementById('currentSoundingInput').value) || 0;
+
+            let X1, X2, Y1, Y2;
+            if (currentSounding >= lowerSounding && currentSounding <= upperSounding) {
+                    X1 = lowerSounding;
+                    X2 = upperSounding;
+                    Y1 = lowerVolume;
+                    Y2 = upperVolume;
+            }
+
+
+
+            
+            if (X2 === X1) { 
+                document.getElementById('interpolationResult').textContent = 'Lower and upper sounding values must not be equal';
+            } else {
+                const interpolatedValue = Y1 + ((currentSounding - X1) * (Y2 - Y1)) / (X2 - X1);
+                
+                if (interpolatedValue < 0 || isNaN(interpolatedValue)) {
+                    document.getElementById('interpolationResult').textContent = 'Value is out of range';
+                } else {
+                    document.getElementById('interpolationResult').innerHTML = 
+                        `Result: volume = <strong>${interpolatedValue.toFixed(2)}</strong> m<sup>3</sup>`;
+                }
+            }
+
+        }
+
+
+
+        const currentYearSpan = document.getElementById("currentYear");
+        const currentYear = new Date().getFullYear();
+        currentYearSpan.textContent = currentYear;
+
+    </script>
+</body>
+</html>
